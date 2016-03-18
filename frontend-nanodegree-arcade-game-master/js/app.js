@@ -1,3 +1,10 @@
+var gameBottom = 440;
+var gameTop = 0;
+var gameRight = 400;
+var gameLeft = 0;
+
+
+
 // Enemies our player must avoid
 var Enemy = function(xOrig, yOrig) {
     // Variables applied to each of our instances go here,
@@ -59,7 +66,7 @@ var Player = function() {
 
     this.sprite = 'images/char-rodent.png';
     this.x = 200;
-    this.y = 440;
+    this.y = 425;
 }
 
 Player.prototype.update =  function(dt) {
@@ -67,19 +74,18 @@ Player.prototype.update =  function(dt) {
 
 Player.prototype.handleInput = function(key) {
     
-    if(key === 'left') {
+    if(key === 'left' && this.x > gameLeft + 40) {
         this.x -= 100;
     }
-    if(key === 'right') {
+    if(key === 'right' && this.x < gameRight - 60) {
         this.x += 100;
     }
-    if(key === 'up') {
+    if(key === 'up' && this.y > gameTop + 40) {
         this.y -= 85;
     }
-    if(key === 'down') {
+    if(key === 'down' && this.y < gameBottom - 60) {
         this.y += 85;
     }
-
 }
 
 Player.prototype.render = function() {
