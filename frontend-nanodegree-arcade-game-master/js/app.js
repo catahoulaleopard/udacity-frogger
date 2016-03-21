@@ -48,6 +48,9 @@ var Bear = function(xOrig, yOrig){
 }
 Bear.prototype = Object.create(Enemy.prototype);
 Bear.prototype.constructor = Bear;
+Bear.update = function(dt){
+    console.log("dt: "+dt);
+}
 Bear.prototype.swipe = function(){
     //var swipeStart = dt;
     this.xOffset = 200;
@@ -71,43 +74,54 @@ var Player = function() {
 }
 
 Player.prototype.update =  function(dt) {
+    if (!this.xOffset) { this.xOffset = 0; }
+    if (!this.yOffset) { this.yOffset = 0; }
 };
 
 Player.prototype.handleInput = function(key) {
     
     if(key === 'left' && this.x > gameLeft + 40) {
         this.x -= 100;
+        this.yOffset = 171;
     }
     if(key === 'right' && this.x < gameRight - 60) {
         this.x += 100;
+        this.yOffset = 0;
     }
     if(key === 'up' && this.y > gameTop + 40) {
-        this.y -= 85;
+        this.y -= 85; 
+        this.yOffset = 342;
     }
     if(key === 'down' && this.y < gameBottom - 60) {
         this.y += 85;
+        this.yOffset = 513;
     }
 }
 
 Player.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    ctx.drawImage(Resources.get(this.sprite), this.xOffset, this.yOffset, 100, 170, this.x, this.y, 100, 170);
+            //(Resources.get(this.sprite), this.x, this.y);
 };
+
+Player.prototype.collision = function() {
+    this.xOffset = 101;
+}
 
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
-var enemyBear = new Bear(-130,300);
+//var enemyBear = new Bear(-130,300);
 
 var numberOfEnemies = 11;
 var allEnemies = [];
 for(i=0; i<numberOfEnemies; i++) {
     var kindOfEnemy = Math.floor(Math.random() * 2) + 1; console.log('kindOfEnemy: ' + kindOfEnemy),
     xOrig = (Math.floor(Math.random() * 5)) * -290; console.log('xOrig: ' + xOrig),
-    yOrig = ((Math.floor(Math.random() * 4) +1) * 83)-25;//Math.floor(((Math.random() * 4) * 10) + 20); console.log('yOrig: ' + yOrig);console.log('***********  '+(Math.floor(Math.random() * 4) +1) * 83 );
+    yOrig = ((Math.floor(Math.random() * 4) +1) * 83)-25;
     if (kindOfEnemy === 1) { allEnemies.push(new Enemy(xOrig, yOrig)); }
     else { allEnemies.push(new Bear(xOrig, yOrig));
     }
-    allEnemies[i].speed = Math.floor(Math.random() * 112) + 31;
+    allEnemies[i].speed = Math.floor(Math.random() * 101) + 41;
     var dirOfEnemy = Math.floor(Math.random() * 2) + 1;
     if(dirOfEnemy === 1) {
         allEnemies[i].dir = 'east';
@@ -134,5 +148,5 @@ document.addEventListener('keyup', function(e) {
     };
 
     player.handleInput(allowedKeys[e.keyCode]);
-    enemyBear.handleInput(allowedKeys[e.keyCode]);
+   // enemyBear.handleInput(allowedKeys[e.keyCode]);
 });
