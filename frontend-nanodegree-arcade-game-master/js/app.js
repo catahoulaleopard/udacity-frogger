@@ -48,9 +48,7 @@ var Bear = function(xOrig, yOrig){
 }
 Bear.prototype = Object.create(Enemy.prototype);
 Bear.prototype.constructor = Bear;
-Bear.update = function(dt){
-    console.log("dt: "+dt);
-}
+
 Bear.prototype.swipe = function(){
     //var swipeStart = dt;
     this.xOffset = 200;
@@ -68,7 +66,7 @@ Bear.prototype.handleInput = function(key) {
 // a handleInput() method.
 var Player = function() {
 
-    this.sprite = 'images/char-rodent.png';
+    this.sprite = 'images/char-rodent2.png';
     this.x = 200;
     this.y = 425;
 }
@@ -106,6 +104,20 @@ Player.prototype.render = function() {
 Player.prototype.collision = function() {
     this.xOffset = 101;
 }
+
+Player.prototype.checkCollisions = function() {
+      // console.log(player.x + ": "  + allEnemies[1].x);
+        var numberOfEnemies = 11;
+        for(i=0; i<numberOfEnemies; i++) {
+            if (this.x > (allEnemies[i].x-20) 
+                && this.x < (allEnemies[i].x+20)
+                && this.y > (allEnemies[i].y-25) 
+                && this.y < (allEnemies[i].y+35)
+            ) {
+            this.collision();
+            }
+        }
+    }
 
 
 // Now instantiate your objects.
