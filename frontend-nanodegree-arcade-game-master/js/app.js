@@ -29,6 +29,7 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
+    if (!this.speed) { this.speed = 71; }
     if (this.dir === 'west') { this.x -= dt * this.speed; }
     else { this.x += dt * this.speed; }
     if (!this.xOffset) { this.xOffset = 0; }
