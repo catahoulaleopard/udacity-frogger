@@ -98,7 +98,18 @@ Player.prototype.render = function() {
 var enemyBear = new Bear(-130,300);
 enemyBear.speed = 32;
 enemyBear.dir = 'east';
-var allEnemies = [enemyBear];
+numberOfEnemies = 11;
+var allEnemies = [];
+for(i=0; i<numberOfEnemies; i++) {
+    var kindOfEnemy = Math.floor(Math.random() * 2) + 1; console.log('kindOfEnemy: ' + kindOfEnemy),
+    dirOfEnemy = Math.floor(Math.random() * 2) + 1; console.log('dirOfEnemy: ' + dirOfEnemy),
+    xOrig = Math.floor((Math.random() * 5) * 100) + 40; console.log('xOrig: ' + xOrig),
+    yOrig = Math.floor((Math.random() * 4) * 85) + 120; console.log('yOrig: ' + yOrig);console.log('***********');
+    if (kindOfEnemy === 1) { allEnemies.push(new Enemy(xOrig, yOrig)); }
+    else { allEnemies.push(new Bear(xOrig, yOrig)); }
+
+}
+
 // Place the player object in a variable called player
 var player = new Player();
 
