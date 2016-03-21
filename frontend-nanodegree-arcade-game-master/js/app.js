@@ -97,18 +97,19 @@ Player.prototype.render = function() {
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 var enemyBear = new Bear(-130,300);
-enemyBear.speed = 32;
-enemyBear.dir = 'east';
+
 var numberOfEnemies = 11;
 var allEnemies = [];
 for(i=0; i<numberOfEnemies; i++) {
     var kindOfEnemy = Math.floor(Math.random() * 2) + 1; console.log('kindOfEnemy: ' + kindOfEnemy),
     dirOfEnemy = Math.floor(Math.random() * 2) + 1; console.log('dirOfEnemy: ' + dirOfEnemy),
-    xOrig = Math.floor((Math.random() * 5) * 100) + 40; console.log('xOrig: ' + xOrig),
-    yOrig = Math.floor((Math.random() * 4) * 85) + 120; console.log('yOrig: ' + yOrig);console.log('***********  '+i);
+    xOrig = (Math.floor(Math.random() * 5)) * -290; console.log('xOrig: ' + xOrig),
+    yOrig = ((Math.floor(Math.random() * 4) +1) * 83)-25;//Math.floor(((Math.random() * 4) * 10) + 20); console.log('yOrig: ' + yOrig);console.log('***********  '+(Math.floor(Math.random() * 4) +1) * 83 );
     if (kindOfEnemy === 1) { allEnemies.push(new Enemy(xOrig, yOrig)); }
-    else { allEnemies.push(new Bear(xOrig, yOrig)); }
-
+    else { allEnemies.push(new Bear(xOrig, yOrig));
+    }
+    allEnemies[i].speed = Math.floor(Math.random() * 112) + 31;
+    allEnemies[i].dir = 'east';
 }
 
 // Place the player object in a variable called player
