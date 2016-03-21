@@ -102,14 +102,19 @@ var numberOfEnemies = 11;
 var allEnemies = [];
 for(i=0; i<numberOfEnemies; i++) {
     var kindOfEnemy = Math.floor(Math.random() * 2) + 1; console.log('kindOfEnemy: ' + kindOfEnemy),
-    dirOfEnemy = Math.floor(Math.random() * 2) + 1; console.log('dirOfEnemy: ' + dirOfEnemy),
     xOrig = (Math.floor(Math.random() * 5)) * -290; console.log('xOrig: ' + xOrig),
     yOrig = ((Math.floor(Math.random() * 4) +1) * 83)-25;//Math.floor(((Math.random() * 4) * 10) + 20); console.log('yOrig: ' + yOrig);console.log('***********  '+(Math.floor(Math.random() * 4) +1) * 83 );
     if (kindOfEnemy === 1) { allEnemies.push(new Enemy(xOrig, yOrig)); }
     else { allEnemies.push(new Bear(xOrig, yOrig));
     }
     allEnemies[i].speed = Math.floor(Math.random() * 112) + 31;
-    allEnemies[i].dir = 'east';
+    var dirOfEnemy = Math.floor(Math.random() * 2) + 1;
+    if(dirOfEnemy === 1) {
+        allEnemies[i].dir = 'east';
+    } else {
+        allEnemies[i].dir = 'west';
+        allEnemies[i].x += 1600;
+    }
 }
 
 // Place the player object in a variable called player
