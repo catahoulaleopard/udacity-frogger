@@ -33,7 +33,40 @@ Enemy.prototype.update = function(dt) {
     if (this.dir === 'west') { this.x -= dt * this.speed; }
     else { this.x += dt * this.speed; }
     if (!this.xOffset) { this.xOffset = 0; }
+
+    for(i=0; i<numberOfEnemies; i++) {
+            if (allEnemies[i].x < -1600 || allEnemies[i].x > 1600) {
+            this.replaceEnemy(i);
+            }
+        }
 };
+
+Enemy.prototype.replaceEnemy = function(i){
+
+var kindOfEnemy = Math.floor(Math.random() * 2) + 1,
+    xOrigMod = (Math.floor(Math.random() * 5)) * 320,
+    xOrig = 0,
+    yOrig = ((Math.floor(Math.random() * 4) +1) * 83)-25,
+    dirOfEnemy = Math.floor(Math.random() * 2) + 1;
+
+    if(dirOfEnemy === 1) {
+        enemyDir = 'east';
+        xOrig = 0-xOrigMod;
+    } else {
+        enemyDir = 'west';
+        xOrig = 505 + xOrigMod;
+    }
+
+
+    if (kindOfEnemy === 1) { allEnemies.splice(i,1,new Enemy(xOrig, yOrig)); }
+    else { allEnemies.splice(i,1,new Bear(xOrig, yOrig));
+    }
+    allEnemies[i].speed = Math.floor(Math.random() * 101) + 41;
+    allEnemies[i].dir = enemyDir;
+
+   // allEnemies.splice(i,1,new Enemy);
+    console.log("REPLACEENEMY");
+}
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
@@ -71,28 +104,31 @@ var Player = function() {
     this.y = 425;
 }
 
-Player.prototype.update =  function(dt) {
+Player.prototype.update =  function() {
     if (!this.xOffset) { this.xOffset = 0; }
     if (!this.yOffset) { this.yOffset = 0; }
 };
 
+Player.prototype.collided = false;
+
 Player.prototype.handleInput = function(key) {
-    
-    if(key === 'left' && this.x > gameLeft + 40) {
-        this.x -= 100;
-        this.yOffset = 171;
-    }
-    if(key === 'right' && this.x < gameRight - 60) {
-        this.x += 100;
-        this.yOffset = 0;
-    }
-    if(key === 'up' && this.y > gameTop + 40) {
-        this.y -= 85; 
-        this.yOffset = 342;
-    }
-    if(key === 'down' && this.y < gameBottom - 60) {
-        this.y += 85;
-        this.yOffset = 513;
+    if(this.collided == false) {
+        if(key === 'left' && this.x > gameLeft + 40) {
+            this.x -= 100;
+            this.yOffset = 171;
+        }
+        if(key === 'right' && this.x < gameRight - 60) {
+            this.x += 100;
+            this.yOffset = 0;
+        }
+        if(key === 'up' && this.y > gameTop + 40) {
+            this.y -= 85; 
+            this.yOffset = 342;
+        }
+        if(key === 'down' && this.y < gameBottom - 60) {
+            this.y += 85;
+            this.yOffset = 513;
+        }
     }
 }
 
@@ -107,7 +143,7 @@ Player.prototype.collision = function() {
 
 Player.prototype.checkCollisions = function() {
       // console.log(player.x + ": "  + allEnemies[1].x);
-        var numberOfEnemies = 11;
+        
         for(i=0; i<numberOfEnemies; i++) {
             if (this.x > (allEnemies[i].x-20) 
                 && this.x < (allEnemies[i].x+20)
@@ -127,20 +163,24 @@ Player.prototype.checkCollisions = function() {
 var numberOfEnemies = 11;
 var allEnemies = [];
 for(i=0; i<numberOfEnemies; i++) {
-    var kindOfEnemy = Math.floor(Math.random() * 2) + 1; console.log('kindOfEnemy: ' + kindOfEnemy),
-    xOrig = (Math.floor(Math.random() * 5)) * -290; console.log('xOrig: ' + xOrig),
-    yOrig = ((Math.floor(Math.random() * 4) +1) * 83)-25;
+    var kindOfEnemy = Math.floor(Math.random() * 2) + 1,
+    xOrigMod = (Math.floor(Math.random() * 5)) * 320,
+    xOrig = 0,
+    yOrig = ((Math.floor(Math.random() * 4) +1) * 83)-25,
+    dirOfEnemy = Math.floor(Math.random() * 2) + 1;
+
+    if(dirOfEnemy === 1) {
+        enemyDir = 'east';
+        xOrig = 0-xOrigMod;
+    } else {
+        enemyDir = 'west';
+        xOrig = 505 + xOrigMod;
+    }
     if (kindOfEnemy === 1) { allEnemies.push(new Enemy(xOrig, yOrig)); }
     else { allEnemies.push(new Bear(xOrig, yOrig));
     }
     allEnemies[i].speed = Math.floor(Math.random() * 101) + 41;
-    var dirOfEnemy = Math.floor(Math.random() * 2) + 1;
-    if(dirOfEnemy === 1) {
-        allEnemies[i].dir = 'east';
-    } else {
-        allEnemies[i].dir = 'west';
-        allEnemies[i].x += 1600;
-    }
+    allEnemies[i].dir = enemyDir;
 }
 
 // Place the player object in a variable called player
