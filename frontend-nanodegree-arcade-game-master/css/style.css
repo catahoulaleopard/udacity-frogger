@@ -1,3 +1,28 @@
 body {
     text-align: center;
 }
+
+
+@-webkit-keyframes shake {
+  0%   { opacity: 0; background: transparent; }
+  100% { opacity: 1; background: #ff7f00; }
+}
+@-moz-keyframes shake {
+  0%   { opacity: 0; background: transparent; }
+  100% { opacity: 1; background: #ff7f00; }
+}
+@-o-keyframes shake {
+  0%   { opacity: 0; background: transparent; }
+  100% { opacity: 1; background: #ff7f00; }
+}
+@keyframes shake {
+  0%   { opacity: 0; background: transparent; }
+  100% { opacity: 1; background: #ff7f00; }
+}
+
+.shake {
+  -webkit-animation: shake 50ms 9;
+  -moz-animation:    shake 50ms 9;
+  -o-animation:      shake 50ms 9;
+  animation:         shake 50ms 9; 
+}

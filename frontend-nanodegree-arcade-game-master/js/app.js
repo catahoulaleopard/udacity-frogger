@@ -138,7 +138,9 @@ Player.prototype.render = function() {
 };
 
 Player.prototype.collision = function() {
+    this.collided = true;
     this.xOffset = 101;
+    document.getElementById('canvas').setAttribute('class', 'shake');
 }
 
 Player.prototype.checkCollisions = function() {
