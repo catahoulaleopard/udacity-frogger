@@ -101,9 +101,7 @@ Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.xOffset, this.yOffset, 100, 170, this.x, this.y, 100, 170);
 };
 Enemy.prototype.checkX = function() {
-    //console.log(this.indexOf + ": " + this.x);
 }
-
 
 var Bug = function(xOrig, yOrig){
     Enemy.call(this, xOrig, yOrig);
@@ -114,26 +112,8 @@ var Bug = function(xOrig, yOrig){
 Bug.prototype = Object.create(Enemy.prototype);
 Bug.prototype.constructor = Bug;
 Bug.prototype.checkX = function(){
+    this.y = this.yOrig + (Math.floor(Math.random()*3))-12;
 }
-Bug.prototype.render = function(){
-    var deg = this.x;// Math.floor(Math.random() * 132) - 66;
-    //Convert degrees to radian 
-    var rad = deg * Math.PI / 180;
-//console.log(rad);
-    //Set the origin to the center of the image
-    ctx.translate(this.x + this.width / 2, this.y + this.height / 2);
-
-    //Rotate the canvas around the origin
-    ctx.rotate(rad);
-
-    //draw the image    
-    ctx.drawImage(Resources.get(this.sprite),this.width / 2 * (-1),this.height / 2 * (-1),this.width,this.height);
-
-    //reset the canvas  
-    ctx.rotate(rad * ( -1 ) );
-    ctx.translate((this.x + this.width / 2) * (-1), (this.y + this.height / 2) * (-1));
-}
-
 
 var Bear = function(xOrig, yOrig){
     Enemy.call(this, xOrig, yOrig);
@@ -155,14 +135,6 @@ Bear.prototype.checkX = function() {
         this.yOffset = 171;
     } else this.yOffset = 0;
 }
-Bear.prototype.swipe = function(){
-    this.xOffset = 200;
-};
-Bear.prototype.handleInput = function(key) {
-    if(key === 'space') {
-        this.swipe();
-    }
-};
 
 // Now write your own player class
 // This class requires an update(), render() and
