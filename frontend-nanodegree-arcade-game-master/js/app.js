@@ -29,12 +29,19 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
+    if (!this.xOffset) { this.xOffset = 0; }
+    if (!this.yOffset) { this.yOffset = 0; }
     if (!this.speed) { this.speed = 71; }
-    if (this.dir === 'west') { this.x -= dt * this.speed; }
-    else { this.x += dt * this.speed; }
+    if (this.dir === 'west') { 
+        this.x -= dt * this.speed;
+        this.xOffset = 101; 
+    } else { 
+        this.x += dt * this.speed;
+        this.xOffset = 0; 
+    }
     if (!this.xOffset) { this.xOffset = 0; }
 
-    for(i=0; i<numberOfEnemies; i++) {
+    for(i=0; i<allEnemies.length; i++) {
             if (allEnemies[i].x < -1600 || allEnemies[i].x > 1600) {
             this.replaceEnemy(i);
             }
@@ -50,14 +57,16 @@ Enemy.prototype.replaceEnemy = function(i){
 
     if(dirOfEnemy === 1) {
         enemyDir = 'east';
-        xOrig = -90;;
+        xOrig = -90;
+        this.xOffset = 0;
     } else {
         enemyDir = 'west';
-        xOrig = 505;;
+        xOrig = 505;
+        this.xOffset = 101;
     }
 
 
-    if (kindOfEnemy === 1) { allEnemies.splice(i,1,new Enemy(xOrig, yOrig)); }
+    if (kindOfEnemy === 1) { allEnemies.splice(i,1,new Bug(xOrig, yOrig)); }
     else { allEnemies.splice(i,1,new Bear(xOrig, yOrig));
     }
     allEnemies[i].speed = Math.floor(Math.random() * 101) + 41;
@@ -66,32 +75,65 @@ Enemy.prototype.replaceEnemy = function(i){
 
 Enemy.prototype.addNewEnemy = function() {
     var kindOfEnemy = Math.floor(Math.random() * 2) + 1,
-    xOrigMod = (Math.floor(Math.random() * 5)) * 320,
-    xOrig = 0,
-    yOrig = ((Math.floor(Math.random() * 4) +1) * 83)-25,
     dirOfEnemy = Math.floor(Math.random() * 2) + 1;
 
     if(dirOfEnemy === 1) {
         enemyDir = 'east';
         xOrig = -50;
+        this.xOffset = 0;
     } else {
         enemyDir = 'west';
         xOrig = 505;
+        this.xOffset = 101;
     }
 
-
-    if (kindOfEnemy === 1) { allEnemies.push(new Enemy(xOrig, yOrig)); }
-    else { allEnemies.push(new Bear(xOrig, yOrig));
+    if (kindOfEnemy === 1) { allEnemies.push(new Bug(xOrig, yOrig)); 
+    } else { 
+        allEnemies.push(new Bear(xOrig, yOrig));
     }
     allEnemies[i].speed = Math.floor(Math.random() * 101) + 41;
     allEnemies[i].dir = enemyDir;
-   console.log("NEW ENEMY: " + allEnemies.length ); // numberOfEnemies ++;
+   //console.log("NEW ENEMY: " + allEnemies.length );
 };
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.xOffset, 0, 100, 170, this.x, this.y, 100, 170);
+    ctx.drawImage(Resources.get(this.sprite), this.xOffset, this.yOffset, 100, 170, this.x, this.y, 100, 170);
 };
+Enemy.prototype.checkX = function() {
+    //console.log(this.indexOf + ": " + this.x);
+}
+
+
+var Bug = function(xOrig, yOrig){
+    Enemy.call(this, xOrig, yOrig);
+    this.sprite = 'images/enemy-bug.png';
+    this.xOrig = xOrig;
+    this.yOrig = yOrig;
+}
+Bug.prototype = Object.create(Enemy.prototype);
+Bug.prototype.constructor = Bug;
+Bug.prototype.checkX = function(){
+}
+Bug.prototype.render = function(){
+    var deg = this.x;// Math.floor(Math.random() * 132) - 66;
+    //Convert degrees to radian 
+    var rad = deg * Math.PI / 180;
+//console.log(rad);
+    //Set the origin to the center of the image
+    ctx.translate(this.x + this.width / 2, this.y + this.height / 2);
+
+    //Rotate the canvas around the origin
+    ctx.rotate(rad);
+
+    //draw the image    
+    ctx.drawImage(Resources.get(this.sprite),this.width / 2 * (-1),this.height / 2 * (-1),this.width,this.height);
+
+    //reset the canvas  
+    ctx.rotate(rad * ( -1 ) );
+    ctx.translate((this.x + this.width / 2) * (-1), (this.y + this.height / 2) * (-1));
+}
+
 
 var Bear = function(xOrig, yOrig){
     Enemy.call(this, xOrig, yOrig);
@@ -101,11 +143,20 @@ var Bear = function(xOrig, yOrig){
 }
 Bear.prototype = Object.create(Enemy.prototype);
 Bear.prototype.constructor = Bear;
-
+Bear.prototype.checkX = function() {
+    if(this.x >180 && this.x < 200 || this.x >280 && this.x < 300){
+        this.xOffset = 101;
+    } else if(this.x >200 && this.x < 280){
+        this.xOffset = 202;
+    } else this.xOffset = 0;
+    if(this.x >60 && this.x < 120 
+        || this.x >180 && this.x < 240
+        || this.x >300 && this.x < 360){
+        this.yOffset = 171;
+    } else this.yOffset = 0;
+}
 Bear.prototype.swipe = function(){
-    //var swipeStart = dt;
     this.xOffset = 200;
-    //console.log(" ::: "+dt);
 };
 Bear.prototype.handleInput = function(key) {
     if(key === 'space') {
@@ -163,7 +214,7 @@ Player.prototype.collision = function() {
 }
 
 Player.prototype.checkCollisions = function() {
-    for(i=0; i<numberOfEnemies; i++) {
+    for(i=0; i<allEnemies.length; i++) {
         if (this.x > (allEnemies[i].x-20) 
             && this.x < (allEnemies[i].x+20)
             && this.y > (allEnemies[i].y-25) 
@@ -182,10 +233,10 @@ Player.prototype.checkGoal = function() {
 Player.prototype.score = 0;
 Player.prototype.goal = function() {
     this.score ++;
-    this.x = 200;
+   // this.x = 200;
     this.y = 425;
     Enemy.prototype.addNewEnemy();
-    console.log(this.score);
+    //console.log(this.score);
 }
 
 
@@ -193,11 +244,9 @@ var Score = function() {
 }
 
 Score.prototype.render = function() {
-        ctx.font = "30px Arial";
-        //ctx.fillText("Your Score: "+"   ",10,50);
-        ctx.clearRect(10,0,400,50);
-    ctx.fillText("Your Score: "+player.score,10,50);
-    ctx.restore();
+    ctx.font = "30px Arial";
+    ctx.clearRect(10,0,400,50);
+    ctx.fillText("Your Score: "+player.score,10,40);
 }
 
 
@@ -205,7 +254,7 @@ Score.prototype.render = function() {
 // Place all enemy objects in an array called allEnemies
 //var enemyBear = new Bear(-130,300);
 
-var numberOfEnemies = 11;
+var numberOfEnemies = 2;
 var allEnemies = [];
 for(i=0; i<numberOfEnemies; i++) {
     var kindOfEnemy = Math.floor(Math.random() * 2) + 1,
@@ -221,7 +270,7 @@ for(i=0; i<numberOfEnemies; i++) {
         enemyDir = 'west';
         xOrig = 505 + xOrigMod;
     }
-    if (kindOfEnemy === 1) { allEnemies.push(new Enemy(xOrig, yOrig)); }
+    if (kindOfEnemy === 1) { allEnemies.push(new Bug(xOrig, yOrig)); }
     else { allEnemies.push(new Bear(xOrig, yOrig));
     }
     allEnemies[i].speed = Math.floor(Math.random() * 101) + 41;
