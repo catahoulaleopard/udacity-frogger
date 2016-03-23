@@ -42,8 +42,7 @@ Enemy.prototype.update = function(dt) {
 };
 
 Enemy.prototype.replaceEnemy = function(i){
-
-var kindOfEnemy = Math.floor(Math.random() * 2) + 1,
+    var kindOfEnemy = Math.floor(Math.random() * 2) + 1,
     xOrigMod = (Math.floor(Math.random() * 5)) * 320,
     xOrig = 0,
     yOrig = ((Math.floor(Math.random() * 4) +1) * 83)-25,
@@ -51,10 +50,10 @@ var kindOfEnemy = Math.floor(Math.random() * 2) + 1,
 
     if(dirOfEnemy === 1) {
         enemyDir = 'east';
-        xOrig = 0-xOrigMod;
+        xOrig = -90;;
     } else {
         enemyDir = 'west';
-        xOrig = 505 + xOrigMod;
+        xOrig = 505;;
     }
 
 
@@ -63,10 +62,31 @@ var kindOfEnemy = Math.floor(Math.random() * 2) + 1,
     }
     allEnemies[i].speed = Math.floor(Math.random() * 101) + 41;
     allEnemies[i].dir = enemyDir;
-
-   // allEnemies.splice(i,1,new Enemy);
-    console.log("REPLACEENEMY");
 }
+
+Enemy.prototype.addNewEnemy = function() {
+    var kindOfEnemy = Math.floor(Math.random() * 2) + 1,
+    xOrigMod = (Math.floor(Math.random() * 5)) * 320,
+    xOrig = 0,
+    yOrig = ((Math.floor(Math.random() * 4) +1) * 83)-25,
+    dirOfEnemy = Math.floor(Math.random() * 2) + 1;
+
+    if(dirOfEnemy === 1) {
+        enemyDir = 'east';
+        xOrig = -50;
+    } else {
+        enemyDir = 'west';
+        xOrig = 505;
+    }
+
+
+    if (kindOfEnemy === 1) { allEnemies.push(new Enemy(xOrig, yOrig)); }
+    else { allEnemies.push(new Bear(xOrig, yOrig));
+    }
+    allEnemies[i].speed = Math.floor(Math.random() * 101) + 41;
+    allEnemies[i].dir = enemyDir;
+   console.log("NEW ENEMY: " + allEnemies.length ); // numberOfEnemies ++;
+};
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
@@ -88,7 +108,6 @@ Bear.prototype.swipe = function(){
     //console.log(" ::: "+dt);
 };
 Bear.prototype.handleInput = function(key) {
-    
     if(key === 'space') {
         this.swipe();
     }
@@ -144,18 +163,42 @@ Player.prototype.collision = function() {
 }
 
 Player.prototype.checkCollisions = function() {
-      // console.log(player.x + ": "  + allEnemies[1].x);
-        
-        for(i=0; i<numberOfEnemies; i++) {
-            if (this.x > (allEnemies[i].x-20) 
-                && this.x < (allEnemies[i].x+20)
-                && this.y > (allEnemies[i].y-25) 
-                && this.y < (allEnemies[i].y+35)
-            ) {
-            this.collision();
-            }
+    for(i=0; i<numberOfEnemies; i++) {
+        if (this.x > (allEnemies[i].x-20) 
+            && this.x < (allEnemies[i].x+20)
+            && this.y > (allEnemies[i].y-25) 
+            && this.y < (allEnemies[i].y+35)
+        ) {
+        this.collision();
         }
     }
+}
+
+Player.prototype.checkGoal = function() {
+    if (this.y < 50){
+        this.goal();
+    }
+}
+Player.prototype.score = 0;
+Player.prototype.goal = function() {
+    this.score ++;
+    this.x = 200;
+    this.y = 425;
+    Enemy.prototype.addNewEnemy();
+    console.log(this.score);
+}
+
+
+var Score = function() {
+}
+
+Score.prototype.render = function() {
+        ctx.font = "30px Arial";
+        //ctx.fillText("Your Score: "+"   ",10,50);
+        ctx.clearRect(10,0,400,50);
+    ctx.fillText("Your Score: "+player.score,10,50);
+    ctx.restore();
+}
 
 
 // Now instantiate your objects.
@@ -204,3 +247,5 @@ document.addEventListener('keyup', function(e) {
     player.handleInput(allowedKeys[e.keyCode]);
    // enemyBear.handleInput(allowedKeys[e.keyCode]);
 });
+
+var score= new Score();

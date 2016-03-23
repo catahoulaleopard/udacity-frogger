@@ -24,9 +24,11 @@ var Engine = (function(global) {
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
         lastTime;
+        canvas.setAttribute('id', 'canvas');
 
     canvas.width = 505;
     canvas.height = 606;
+
     doc.body.appendChild(canvas);
 
     /* This function serves as the kickoff point for the game loop itself
@@ -81,6 +83,7 @@ var Engine = (function(global) {
     function update(dt) {
         updateEntities(dt);
         player.checkCollisions();
+        player.checkGoal();
     }
 
     
@@ -146,6 +149,9 @@ var Engine = (function(global) {
      * on your enemy and player entities within app.js
      */
     function renderEntities() {
+
+        player.render();
+
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */
@@ -153,7 +159,7 @@ var Engine = (function(global) {
             enemy.render();
         });
 
-        player.render();
+        score.render();
     }
 update
     /* This function does nothing but it could have been a good place to
