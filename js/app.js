@@ -5,6 +5,7 @@ var gameRight = 400;
 var gameLeft = 0,
 xOrig,
 yOrig = ((Math.floor(Math.random() * 4) + 1) * 83) - 25;
+var scoreBox = document.getElementById('score-box');
 
 // Enemies player must avoid
 var Enemy = function (xOrig, yOrig) {
@@ -247,10 +248,12 @@ Player.prototype.score = 0;
 var Score = function () {}
 
 Score.prototype.render = function () {
-   ctx.font = 'bold 27px Dosis';
-   ctx.fillStyle = '#CD2E70';
-   ctx.clearRect(10, 0, 400, 50);
-   ctx.fillText('Score: ' + player.score, 10, 40);
+   // ctx.font = 'bold 27px Dosis';
+   // ctx.fillStyle = '#CD2E70';
+   // ctx.clearRect(10, 0, 400, 50);
+   // ctx.fillText('Score: ' + player.score, 10, 40);
+
+   scoreBox.innerHTML='SCORE: ' + player.score;
 }
 
 // Instantiate objects.
