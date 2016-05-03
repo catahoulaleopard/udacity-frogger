@@ -17,7 +17,7 @@ var Engine = (function (global) {
       ctx = canvas.getContext('2d'),
       lastTime;
    canvas.setAttribute('id', 'canvas');
-
+   canvas.setAttribute('style', 'font: Dosis');
    canvas.width = 505;
    canvas.height = 588;
 
@@ -33,8 +33,14 @@ var Engine = (function (global) {
      }
 
     resetButton.onclick = function(e) {
-          e.preventDefaut();
-          reset();
+          e.preventDefault();
+         // if (resetButton.classList) {
+            
+       //   }
+        //  else {
+        //    resetButton.className = resetButton.className.replace( /(?:^|\s)show(?!\S)/g , '' )
+        //  }
+          reset(); 
 
     }
 
@@ -170,6 +176,8 @@ var Engine = (function (global) {
      numberOfEnemies = 2;
      allEnemies = [];
      createEnemies();
+     resetButton.classList.remove('show'); 
+     doc.getElementById('canvas').classList.remove('shake');
      main();
    }
 

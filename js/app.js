@@ -247,9 +247,10 @@ Player.prototype.score = 0;
 var Score = function () {}
 
 Score.prototype.render = function () {
-   ctx.font = "30px Arial";
+   ctx.font = 'bold 27px Dosis';
+   ctx.fillStyle = '#CD2E70';
    ctx.clearRect(10, 0, 400, 50);
-   ctx.fillText("Your Score: " + player.score, 10, 40);
+   ctx.fillText('Score: ' + player.score, 10, 40);
 }
 
 // Instantiate objects.
