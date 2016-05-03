@@ -2,12 +2,13 @@
 var gameBottom = 440;
 var gameTop = 0;
 var gameRight = 400;
-var gameLeft = 0;
+var gameLeft = 0,
+xOrig,
+yOrig = ((Math.floor(Math.random() * 4) + 1) * 83) - 25;
 
-// Enemies our player must avoid
+// Enemies player must avoid
 var Enemy = function (xOrig, yOrig) {
-   // The image/sprite for our enemies, this uses
-   // a helper we've provided to easily load images
+   // The image/sprite for enemies
    this.sprite = 'images/enemy-bug.png';
 
    // Set default enemy position
@@ -106,7 +107,7 @@ Enemy.prototype.addNewEnemy = function () {
    allEnemies[i].dir = enemyDir;
 };
 
-// Draw the enemy on the screen, required method for game
+// Draw the enemy on the screen
 Enemy.prototype.render = function () {
    ctx.drawImage(Resources.get(this.sprite), this.xOffset, this.yOffset, 100, 170, this.x, this.y, 100, 170);
 };
@@ -213,6 +214,7 @@ Player.prototype.collision = function () {
    this.collided = true;
    this.xOffset = 101;
    document.getElementById('canvas').setAttribute('class', 'shake');
+   //reset();
 }
 
 // called from update function, checkCollisions checks player/enemy proximity
@@ -255,28 +257,32 @@ Score.prototype.render = function () {
 var numberOfEnemies = 2;
 // Place all enemy objects into allEnemies array
 var allEnemies = [];
-for (i = 0; i < numberOfEnemies; i++) {
-   var kindOfEnemy = Math.floor(Math.random() * 2) + 1,
-      xOrigMod = (Math.floor(Math.random() * 5)) * 320,
-      xOrig = 0,
-      yOrig = ((Math.floor(Math.random() * 4) + 1) * 83) - 25,
-      dirOfEnemy = Math.floor(Math.random() * 2) + 1;
+createEnemies();
 
-   if (dirOfEnemy === 1) {
-      enemyDir = 'east';
-      xOrig = 0 - xOrigMod;
-   } else {
-      enemyDir = 'west';
-      xOrig = 505 + xOrigMod;
+function createEnemies() {
+   for (i = 0; i < numberOfEnemies; i++) {
+      var kindOfEnemy = Math.floor(Math.random() * 2) + 1,
+         xOrigMod = (Math.floor(Math.random() * 5)) * 320,
+         xOrig = 0,
+         yOrig = ((Math.floor(Math.random() * 4) + 1) * 83) - 25,
+         dirOfEnemy = Math.floor(Math.random() * 2) + 1;
+
+      if (dirOfEnemy === 1) {
+         enemyDir = 'east';
+         xOrig = 0 - xOrigMod;
+      } else {
+         enemyDir = 'west';
+         xOrig = 505 + xOrigMod;
+      }
+      if (kindOfEnemy === 1) {
+         allEnemies.push(new Bug(xOrig, yOrig));
+      } else {
+         allEnemies.push(new Bear(xOrig, yOrig));
+      }
+      allEnemies[i].speed = Math.floor(Math.random() * 101) + 41;
+      allEnemies[i].dir = enemyDir;
    }
-   if (kindOfEnemy === 1) {
-      allEnemies.push(new Bug(xOrig, yOrig));
-   } else {
-      allEnemies.push(new Bear(xOrig, yOrig));
-   }
-   allEnemies[i].speed = Math.floor(Math.random() * 101) + 41;
-   allEnemies[i].dir = enemyDir;
-}
+};
 
 
 var player = new Player();

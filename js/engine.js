@@ -22,16 +22,29 @@ var Engine = (function (global) {
    canvas.height = 588;
 
    doc.body.appendChild(canvas);
+   var resetButton = doc.querySelector('.reset-button');
+
+   function playerCollided() {
+    console.log('collided');
+      if (resetButton.classList)
+        resetButton.classList.add('show');
+      else {
+        resetButton.className += ' ' + 'show';
+     }
+
+    resetButton.onclick = function(e) {
+          e.preventDefaut();
+          reset();
+
+    }
+
+   }
 
    /* This function serves as the kickoff point for the game loop itself
     * and handles properly calling the update and render methods.
     */
    function main() {
-      /* Get our time delta information which is required if your game
-       * requires smooth animation. Because everyone's computer processes
-       * instructions at different speeds we need a constant value that
-       * would be the same for everyone (regardless of how fast their
-       * computer is) - hurray time!
+      /* Get time delta for smooth animation
        */
       var now = Date.now(),
          dt = (now - lastTime) / 1000.0;
@@ -58,7 +71,7 @@ var Engine = (function (global) {
     * game loop.
     */
    function init() {
-      reset();
+     // reset();
       lastTime = Date.now();
       main();
    }
@@ -69,6 +82,7 @@ var Engine = (function (global) {
    function update(dt) {
       updateEntities(dt);
       player.checkCollisions();
+      if(player.collided) { playerCollided(); }
       player.checkGoal();
    }
 
@@ -147,7 +161,16 @@ var Engine = (function (global) {
     * those sorts of things. It's only called once by the init() method.
     */
    function reset() {
-      // noop
+     player.score = 0;
+     player.xOffset = 0;
+     player.yOffset = 0;
+     player.x = 200;
+     player.y = 425;
+     player.collided = false;
+     numberOfEnemies = 2;
+     allEnemies = [];
+     createEnemies();
+     main();
    }
 
    /* Go ahead and load all of the images we know we're going to need to
@@ -159,9 +182,8 @@ var Engine = (function (global) {
       'images/water-block.png',
       'images/grass-block.png',
       'images/enemy-bug.png',
-      'images/enemy-bear.png',
       'images/enemy-bear-sprites.png',
-      'images/char-rodent.png', 'images/char-rodent2.png'
+      'images/char-rodent2.png'
    ]);
    Resources.onReady(init);
 

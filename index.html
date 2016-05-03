@@ -41,9 +41,38 @@ canvas {
       height: 88vh;
       background: #bbb;
       max-width: 99vw;
-}</style>
+}
+
+a.reset-button {
+    display: none;
+    position: absolute;
+    z-index: 101;
+    font-size: 23px;
+    color: #BE139A;
+    width: 200px;
+    height: 40px;
+    background: #fff;
+    opacity: .2;
+    border-radius: 9px;
+    margin: 12vh 43vw;
+    /* top: 35vh; */
+    transition: all 1000ms ease;
+    transform: scale(3);
+    padding: 14px 5px 5px;
+    font-family: sans-serif;
+}
+
+a.reset-button.show {
+    display: block;
+    margin: 42vh 43vw;
+    transform: scale(1.2);
+    opacity: .8;
+}
+
+</style>
 </head>
 <body>
+	<a class="reset-button" href="">TRY AGAIN?</a>
     <script src="js/resources.js"></script>
     <script src="js/app.js"></script>
     <script src="js/engine.js"></script>
