@@ -19,7 +19,7 @@ var Engine = (function (global) {
    canvas.setAttribute('id', 'canvas');
 
    canvas.width = 505;
-   canvas.height = 606;
+   canvas.height = 588;
 
    doc.body.appendChild(canvas);
 

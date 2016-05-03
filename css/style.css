@@ -1,5 +1,6 @@
 body {
     text-align: center;
+    background: #8F7D89;
 }
 
 
@@ -25,4 +26,10 @@ body {
   -moz-animation:    shake 50ms 9;
   -o-animation:      shake 50ms 9;
   animation:         shake 50ms 9; 
+}
+
+canvas {
+      border: pink 33px solid;
+      height: 88vh;
+      background: #bbb;
 }

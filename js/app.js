@@ -278,10 +278,10 @@ for (i = 0; i < numberOfEnemies; i++) {
    allEnemies[i].dir = enemyDir;
 }
 
-// Place the player object in player variable 
+
 var player = new Player();
 
-// This listens for key presses and sends the keys to
+// Listen for key presses and sends the keys to
 // Player.handleInput() method.
 document.addEventListener('keyup', function (e) {
    var allowedKeys = {
