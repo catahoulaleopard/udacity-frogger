@@ -9,7 +9,7 @@
     <style>
     body {
     text-align: center;
-    background: #8F7D89;
+    background: #6C3F5D;
     font-family: Dosis;
 }
 
@@ -44,6 +44,28 @@ canvas {
       background: #bbb;
       max-width: 99vw;
 }
+
+@-webkit-keyframes swoosh {
+  0%   { opacity: 0; transform: scale(3.6); }
+  50%   { opacity: 0; transform: scale(3.6); }
+  100% { opacity: 1; transform: scale(1) rotate(-11deg); }
+}
+@-moz-keyframes swoosh {
+ 0%   { opacity: 0; transform: scale(3.6); }
+ 50%   { opacity: 0; transform: scale(3.6); }
+  100% { opacity: 1; transform: scale(1) rotate(-11deg); }
+}
+@-o-keyframes swoosh {
+  0%   { opacity: 0; transform: scale(3.6); }
+  50%   { opacity: 0; transform: scale(3.6); }
+  100% { opacity: 1; transform: scale(1) rotate(-11deg); }
+}
+@keyframes swoosh {
+  0%   { opacity: 0; transform: scale(3.6); }
+  50%   { opacity: 0; transform: scale(3.6); }
+  100% { opacity: 1; transform: scale(1) rotate(-11deg); }
+}
+
 
 @-webkit-keyframes show {
   0%   { opacity: 0; transform: scale(.6); }
@@ -107,7 +129,22 @@ header {
     width: 25vw;
     transform: rotate(-11deg);
     top: 8vh;
+    opacity: 0;
+
+    -webkit-animation: swoosh 650ms ease;
+  -moz-animation:    swoosh 650ms ease;
+  -o-animation:      swoosh 650ms ease;
+  animation:         swoosh 650ms ease;
+  -webkit-animation-delay: 250ms;
+  -ms-animation-delay: 250ms;
+    animation-delay: 250ms;
+    animation-fill-mode: forwards;
+    -webkit-animation-fill-mode: forwards;
+  -moz-animation-fill-mode: forwards;
+  -o-animation-fill-mode: forwards;
+  animation-direction: normal;
 }
+
 aside {
     display: block;
     color: #fff;
