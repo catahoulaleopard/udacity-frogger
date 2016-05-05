@@ -238,15 +238,6 @@ section ul li a {
 }
 
 @media screen and (max-width: 699px) {
-  header#logo {
-      transform: rotate(-5deg);
-      animation: initial;
-      opacity: 1;
-      left: calc(50% - 49.5vw);
-      top: 0;
-    width: 58vw;
-  }
-
   canvas {
     height: inherit;
     max-width: 74vw;
@@ -254,6 +245,28 @@ section ul li a {
 
   #score-box {
     top:4vh;
+  }
+}
+
+@media screen and (max-width: 569px) {
+  header#logo {
+      transform: rotate(-5deg);
+      animation: initial;
+      opacity: 1;
+      left: calc(50% - 49.5vw);
+      top: 0;
+    width: 38vw;
+  }
+}
+
+@media screen and (max-width: 429px) {
+  header#logo {
+      transform: rotate(-5deg);
+      animation: initial;
+      opacity: 1;
+      left: calc(50% - 49.5vw);
+      top: 0;
+    width: 58vw;
   }
 }
 </style>
