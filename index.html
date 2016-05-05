@@ -143,6 +143,7 @@ header {
   -moz-animation-fill-mode: forwards;
   -o-animation-fill-mode: forwards;
   animation-direction: normal;
+  z-index: 111;
 }
 
 aside {
@@ -201,15 +202,72 @@ section ul li a {
     width: 34vw;
     left: calc(50% - 18vw);
     top: 5.7vh;
+    z-index: 111;
 }
 
+
+@media screen and (max-width: 1089px) {
+  aside {
+      display: block;
+      color: #fff;
+      font-size: 17px;
+      position: relative;
+      width: 60vw;
+      left: calc(50% - 30vw);
+      top: 55px;
+  }
+
+  section {
+    display: block;
+    color: #fff;
+    font-size: 17px;
+    position: relative;
+    width: 48vw;
+    right: -25vw;
+    top: 115px;
+  }
+  header#logo {
+      transform: rotate(-5deg);
+      animation: initial;
+      opacity: 1;
+      left: calc(50% - 36.5vw);
+      top: .5vh;
+      z-index: 111;
+  }
+  
+}
+
+@media screen and (max-width: 699px) {
+  header#logo {
+      transform: rotate(-5deg);
+      animation: initial;
+      opacity: 1;
+      left: calc(50% - 49.5vw);
+      top: 0;
+    width: 58vw;
+  }
+
+  canvas {
+    height: inherit;
+    max-width: 74vw;
+  }
+
+  #score-box {
+    top:4vh;
+  }
+}
 </style>
 </head>
 <body>
 	<a class="reset-button" href="">TRY AGAIN?</a>
-  <header><img src="images/squirreler-logo.svg" alt="Squirreler!"></header>
+  <header id="logo"><img src="images/squirreler-logo.svg" alt="Squirreler!"></header>
 
-  <aside>
+
+  <div id="score-box"></div>
+  <content></content>
+
+
+    <aside>
     <p><b>Squirreler</b> is a take on the arcade game, Frogger. (This is the result of a project in the Udacity Front-End Web Developer Nanodegree focussing on Object-Oriented JavaScript.)</p>
     <p>Using the arrow keys, move your squirrel safely up the screen, avoiding bugs and bears to get to the river. Each time your squirrel makes it to the water without colliding with an enemy, you get a point. </p>
 <p>How many points can you get? Of course, the more points you get, the more difficult the game becomes.</p>
@@ -224,8 +282,6 @@ section ul li a {
       <li><a href="https://github.com/catahoulaleopard/udacity-frogger" id="view-on-github" class="button"><span>View on GitHub</span></a></li>
     </ul>
   </section>
-
-  <div id="score-box"></div>
 
     <script src="js/resources.js"></script>
     <script src="js/app.js"></script>

@@ -13,6 +13,8 @@ var Engine = (function (global) {
     */
    var doc = global.document,
       win = global.window,
+      gamebox = doc.querySelector('content'),
+      resetButton = doc.querySelector('.reset-button'),
       canvas = doc.createElement('canvas'),
       ctx = canvas.getContext('2d'),
       lastTime;
@@ -21,8 +23,8 @@ var Engine = (function (global) {
    canvas.width = 505;
    canvas.height = 588;
 
-   doc.body.appendChild(canvas);
-   var resetButton = doc.querySelector('.reset-button');
+   gamebox.appendChild(canvas);
+   
 
    function playerCollided() {
     console.log('collided');
