@@ -32,4 +32,23 @@ canvas {
       border: pink 33px solid;
       height: 88vh;
       background: #bbb;
+      max-height: 650px;
+}
+
+a.reset-button {
+  display:none;
+  position: absolute;
+  z-index: 101;
+  font-size: 23px;
+  color: #30c;
+  width: 200px;
+  height: 40px;
+  background: #fff;
+  left: 49vh;
+  top: 45vh;
+
+}
+
+a.reset-button.show {
+   display:block;
 }
